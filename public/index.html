@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Запись к парикмахеру</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Запись на услуги парикмахера</h1>
+  
+  <!-- Авторизация -->
+  <div id="auth">
+    <input type="text" id="username" placeholder="Имя">
+    <input type="password" id="password" placeholder="Пароль">
+    <button onclick="login()">Войти</button>
+  </div>
+  
+  <!-- Список услуг -->
+  <div id="services">
+    <h2>Выберите услугу</h2>
+    <select id="serviceSelect">
+      <option value="1">Стрижка</option>
+      <option value="2">Маникюр</option>
+      <option value="3">Укладка</option>
+    </select>
+    <button onclick="loadAppointments()">Посмотреть записи</button>
+  </div>
+
+  <!-- Записаться на прием -->
+  <div id="appointments">
+    <h2>Выберите время</h2>
+    <select id="timeSelect">
+      <option value="09:00">09:00</option>
+      <option value="09:30">09:30</option>
+      <option value="10:00">10:00</option>
+    </select>
+    <button onclick="makeAppointment()">Записаться</button>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

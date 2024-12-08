@@ -1,0 +1,22 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  #auth {
+    display: block;
+    margin: 20px;
+  }
+  
+  #services, #appointments {
+    margin: 20px;
+  }
+  
+  input, select, button {
+    margin: 5px;
+    padding: 10px;
+  }
+  
