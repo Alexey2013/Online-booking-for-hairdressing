@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title> Парикмахерская </title>
+    <title> 3822Б1ФИ1 Чистов Алексей </title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script type='text/javascript' src='scripts.js'></script>
 </head>
@@ -12,7 +12,7 @@
 
 <header>
     <nav>
-        <a class="logotype" href="">У Александры</a>
+        <a class="logotype" href="">Парикмахерская</a>
     </nav>
 </header>
 
@@ -20,7 +20,6 @@
     <table class="table">
         <thead>
         <tr>
-            <th>#</th>
             <th>Услуга</th>
             <th>Продолжительность, мин.</th>
             <th>Стоимость, руб.</th>
@@ -29,7 +28,6 @@
         <tbody>
         <% services.forEach(function(serviсe, i) {%>
             <tr id="<%= i + 1 %>" onclick="window.location.href='#choice';renderChoice(document.getElementById('<%= i + 1 %>').id);">
-                <td><%= i + 1 %></td>
                 <td id="type<%= i + 1 %>"><%= serviсe.service_type %></td>
                 <td id="duration<%= i + 1 %>"><%= serviсe.service_time %></td>
                 <td id="price<%= i + 1 %>"><%= serviсe.service_price %></td>
@@ -46,32 +44,23 @@
         <p>Заполните данные:</p>
         <form action="choice" method="post">
             <div class="choiceDialogData">
-                <p><b>Фамилия:</b><br>
-                <p><input type = "text" name="surname" required class="text"></p>
-
                 <p><b>Имя:</b><br>
                 <p><input type = "text" name="name" required class="text"></p>
 
                 <p><b>Телефон:</b><br>
                 <p><input type = "telephone" name="mobile" placeholder="+88005553535" required class="text"></p>
 
-                <p><b>Услуга:</b><br>
-                <p><input type = "text" name="type" readonly="readonly" id="type" class="text"></p>
-
                 <p><b>Стоимость, руб.:</b><br>
                 <p><input type = "text" name="price" readonly="readonly" id="price" class="text"></p>
-
-                <p><b>Продолжительность, мин.:</b><br>
-                <p><input type = "number" name="duration" readonly="readonly" id="duration" class="text"></p>
 
                 <p><input type = "text" name="time" readonly="readonly" id="time" required style="visibility: hidden;"></p>
             </div>
             <div class="btn" onclick="deleteChoiceDiv()">
-                <p><input type = "submit" value="Отправить" class="btn"></p>
+                <p><input type = "submit" value="Записаться" class="btn"></p>
             </div>
         </form>
     </div>
 </div>
 
 </body>
-<html>
+</html>

@@ -1,68 +1,66 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
-const NumberLong = require('mongodb').Long;
-
+const path = require('path');
 const mongojs = require('mongojs');
-const database = mongojs('barbershop');
 
 const app = express();
 app.set("view engine", "ejs");
 
-const urlencodedParser = bodyParser.urlencoded({extended: false});
-var path = require("path");
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const database = mongojs('barbershop');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get("/", function(request, response) {
-    database.collection('services').find(function (error, data) {
-        database.collection('appointments').find(function (error, orders) {
+app.get("/", function (request, response) {
+    database.collection('services').find(function (error, services) {
+        database.collection('appointments').find(function (error, appointments) {
             response.render('index.ejs', {
-                services: data,
-                appointments : orders
+                services: services,
+                appointments: appointments
             });
         });
     });
 });
 
-app.get("/:choice", function(request, response) {
-    database.collection('appointments').find(function (err, orders) {
-        response.send(orders);
+app.get("/:choice", function (request, response) {
+    database.collection('appointments').find(function (err, appointments) {
+        response.send(appointments);
     });
-})
+});
 
 app.post('/:choice', urlencodedParser, function (request, response) {
-    if(!request.body) return response.sendStatus(400);
+    if (!request.body) return response.sendStatus(400);
 
-    database.collection('services').findOne( { service_price: request.body.price,
-                                               service_time: NumberLong(request.body.duration),
-                                               service_type: request.body.type }, function(error, doc) {
-        if (doc) {
+    database.collection('services').findOne({
+        service_price: request.body.price,
+        service_time: Number(request.body.duration),
+        service_type: request.body.type
+    }, function (error, service) {
+        if (service) {
             var appointment = {
-                surname: request.body.surname,
                 name: request.body.name,
-                start_time: NumberLong(request.body.time),
-                duration: NumberLong(request.body.duration),
+                start_time: Number(request.body.time),
+                duration: Number(request.body.duration),
                 type: request.body.type,
                 phone: request.body.mobile
-            }
+            };
 
-            db.collection('appointments').insertOne(appointment, function (error, result) {
+            database.collection('appointments').insertOne(appointment, function (error, result) {
                 if (error) return response.sendStatus(500);
             });
 
-            var ref = "/";
-            response.send('Данные успешно отправлены на сервер. Чтобы вернуться на сайт, перейдите по ссылке <a href=' + ref + '>ссылке</a>');
+            response.send('Data successfully sent to the server. To return to the site, click <a href="/">here</a>');
         } else {
-            response.send('Сервером были получены некорректные параметры.' );
+            response.send('The server received incorrect parameters.');
         }
     });
-})
+});
 
 MongoClient.connect('mongodb://localhost:27017/barbershop', { useUnifiedTopology: true }, function (error, database) {
     if (error) return console.log(error);
     db = database.db('barbershop');
-    app.listen(3333, function () {
-        console.log('Сервер запущен на порту 3333. База данных на порту 27017.');
+    app.listen(8000, function () {
+        console.log('Server is running on http://localhost:8000. Database is on port 27017.');
     });
-}); 
+});
