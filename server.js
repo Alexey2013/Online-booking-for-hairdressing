@@ -1,123 +1,86 @@
 const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
 const path = require('path');
-
 const app = express();
+const databaseUrl = 'mongodb://localhost:27017/barbershop';
 app.set('views', path.join(__dirname, 'public'));
-
 app.use(express.urlencoded({ extended: false }));
-
-const dbUrl = 'mongodb://localhost:27017/barbershop';
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Главная страница
-app.get("/", async function (request, response) {
+app.get("/", async function (req, res) {
     try {
-        const database = await MongoClient.connect(dbUrl, { useUnifiedTopology: true });
-        const db = database.db('barbershop');
+        const connection = await MongoClient.connect(databaseUrl, { useUnifiedTopology: true });
+        const db = connection.db('barbershop');
+        const servicesList = await db.collection('services').find().sort({ service_price: 1 }).toArray();
+        const appointmentsList = await db.collection('appointments').find().toArray();
 
-        // Логирование для отладки
-        console.log('Получаем список услуг и записей');
-        const services = await db.collection('services').find().sort({ service_price: 1 }).toArray();
-        const appointments = await db.collection('appointments').find().toArray();
-
-        response.render('index.ejs', { services: services, appointments: appointments });
-
-    } catch (error) {
-        console.error('Ошибка при подключении к базе данных или получении данных:', error);
-        response.status(500).send('Ошибка при работе с базой данных');
+        res.render('index.ejs', { services: servicesList, appointments: appointmentsList });
+    } catch (err) {
+        res.status(500).send('Ошибка базы данных');
     }
 });
 
-// Получение записей по маршруту
-app.get("/:choice", function (request, response) {
-    console.log(`Получаем записи для ${request.params.choice}`);
-    MongoClient.connect(dbUrl, { useUnifiedTopology: true }, function (error, database) {
-        if (error) {
-            console.error('Не удалось подключиться к базе данных', error);
-            return response.status(500).send('Не удалось подключиться к базе данных');
+app.get("/:category", function (req, res) {
+    MongoClient.connect(databaseUrl, { useUnifiedTopology: true }, function (err, connection) {
+        if (err) {
+            return res.status(500).send('Ошибка подключения к базе данных');
         }
 
-        const db = database.db('barbershop');
-        db.collection('appointments').find().toArray(function (err, appointments) {
+        const db = connection.db('barbershop');
+        db.collection('appointments').find().toArray(function (err, appointmentsList) {
             if (err) {
-                console.error('Не удалось получить записи', err);
-                return response.status(500).send('Не удалось получить записи');
+                return res.status(500).send('Не удалось получить записи');
             }
-            console.log('Записи получены', appointments);
-            response.send(appointments);
+            res.send(appointmentsList);
         });
     });
 });
 
-app.post('/:choice', function (request, response) {
-    console.log('Полученные данные для записи:', request.body);
+app.post('/:category', function (req, res) {
+    const { 'service-price': price, 'service-duration': duration, 'service-type': type, name, time, mobile } = req.body;
 
-    const { 'service-price': price, 'service-duration': duration, 'service-type': type, name, time, mobile } = request.body;
-
-    // Логирование всех данных
-    console.log('Параметры, полученные на сервере:', { price, duration, type, name, time, mobile });
-
-    // Проверка на пустые или некорректные данные
     if (!price || !duration || !type || !name || !time || !mobile) {
-        console.error('Некорректные данные:', { price, duration, type, name, time, mobile });
-        return response.send('Некорректные параметры.');
+        return res.send('Некорректные параметры.');
     }
 
-    MongoClient.connect(dbUrl, { useUnifiedTopology: true }, function (error, database) {
-        if (error) {
-            console.error('Не удалось подключиться к базе данных', error);
-            return response.status(500).send('Не удалось подключиться к базе данных');
+    MongoClient.connect(databaseUrl, { useUnifiedTopology: true }, function (err, connection) {
+        if (err) {
+            return res.status(500).send('Ошибка подключения к базе данных');
         }
 
-        const db = database.db('barbershop');
-        
-        // Преобразуем price и duration в числа
-        const priceNum = Number(price);
-        const durationNum = Number(duration);
-
-        console.log('Параметры услуги:', { price: priceNum, duration: durationNum, type });
-
-        // Проверка на занятость времени
-        const startTime = Number(time);
+        const db = connection.db('barbershop');
+        const priceNumber = Number(price);
+        const durationNumber = Number(duration);
+        const appointmentTime = Number(time);
 
         db.collection('appointments').findOne({
             $and: [
-                { start_time: startTime }, // Проверка по времени
-                { type: type } // Проверка по типу услуги
+                { start_time: appointmentTime },
+                { type: type }
             ]
-        }, function (error, existingAppointment) {
-            if (error) {
-                console.error('Ошибка при поиске записей', error);
-                return response.status(500).send('Ошибка при проверке времени');
+        }, function (err, existingAppointment) {
+            if (err) {
+                return res.status(500).send('Ошибка проверки времени');
             }
 
             if (existingAppointment) {
-                console.warn('Время уже занято для услуги:', { time, type });
-                return response.send('Это время уже занято, выберите другое.');
+                return res.send('Этот временной интервал уже занят, выберите другое время.');
             }
 
-            // Если время свободно, добавляем запись
-            console.log('Добавляем запись:', {
-                name, start_time: startTime, duration: durationNum, phone: mobile
-            });
-
-            const appointment = {
+            const newAppointment = {
                 name: name,
-                start_time: startTime,
-                duration: durationNum,
+                start_time: appointmentTime,
+                duration: durationNumber,
                 type: type,
                 phone: mobile
             };
 
-            db.collection('appointments').insertOne(appointment, function (error, result) {
-                if (error) {
-                    console.error('Ошибка при добавлении записи в базу данных', error);
-                    return response.status(500).send('Не удалось записать прием');
+            db.collection('appointments').insertOne(newAppointment, function (err, result) {
+                if (err) {
+                    return res.status(500).send('Не удалось записаться на прием');
                 }
-                console.log('Запись успешно добавлена');
-                response.send('Вы успешно записались на прием!');
+                res.send('Запись успешно оформлена!');
             });
         });
     });

@@ -8,13 +8,6 @@ function selection(serviceId) {
     document.getElementById('service-price').value = serviceCost;
     document.getElementById('service-duration').value = serviceDuration;
 
-    // Логируем, чтобы убедиться, что данные корректно установлены
-    console.log('Значения для скрытых полей:', {
-        serviceName,
-        serviceCost,
-        serviceDuration
-    });
-
     displayAvailableTimes(serviceDuration);
 }
 
