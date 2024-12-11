@@ -1,70 +1,82 @@
 function renderChoice(param) {
-    // Get the values from the clicked service card
+    // Получение данных о выбранной услуге
     const serviceCard = document.getElementById('service' + param);
     const service_name = serviceCard.querySelector('.service-title').textContent;
     const serviceDuration = serviceCard.querySelector('.service-duration').textContent.replace('Продолжительность: ', '').replace(' мин.', '');
     const servicePrice = serviceCard.querySelector('.service-price').textContent.replace('Стоимость: ', '').replace(' руб.', '');
 
-    // Set the form fields with the corresponding values
+    // Заполнение формы выбранной услугой
     document.getElementById('type').value = service_name;
     document.getElementById('price').value = servicePrice;
     document.getElementById('duration').value = serviceDuration;
 
-    console.log('Service Type: ', service_name);
-    console.log('Service Duration: ', serviceDuration);
-    console.log('Service Price: ', servicePrice);
-
-    // Fetch available times (dummy example for integration)
-    renderAvailableTimes(); // This will populate time slots.
+    // Генерация доступных временных слотов с учетом продолжительности и перерыва
+    renderAvailableTimes(serviceDuration);
 }
 
-// Example function to render dummy available time slots
-function renderAvailableTimes() {
-    const timeContainer = document.createElement('div');
-    timeContainer.className = 'time-container';
+// Функция для отрисовки доступных временных слотов с учетом занятых интервалов
+function renderAvailableTimes(serviceDuration) {
+    const timeContainer = document.getElementById('timeSlots');
+    timeContainer.innerHTML = ''; // Очистка предыдущих временных слотов
 
-    for (let i = 0; i < 10; i++) {
+    const currentTime = new Date(); // Получение текущего времени
+    const workDayStart = new Date(currentTime.setHours(9, 0, 0)); // Начало рабочего дня в 9:00
+    const workDayEnd = new Date(currentTime.setHours(18, 0, 0)); // Конец рабочего дня в 18:00
+
+    const slots = []; // Массив для хранения доступных слотов
+
+    let slotTime = new Date(workDayStart);
+
+    // Заполнение слотов с шагом 10 минут
+    while (slotTime <= workDayEnd) {
+        const slotEndTime = new Date(slotTime.getTime() + serviceDuration * 60000); // Время окончания услуги
+        const breakTime = new Date(slotEndTime.getTime() + 5 * 60000); // Время для перерыва
+
+        // Проверяем, доступен ли слот
+        const slotId = `slot-${slotTime.getHours()}:${slotTime.getMinutes()}`;
+        slots.push({ start: slotTime, end: slotEndTime, id: slotId });
+
         const timeCell = document.createElement('div');
         timeCell.className = 'tableTimeFree';
-        timeCell.id = 'cell' + i;
-        timeCell.textContent = `10:${i}0`;
+        timeCell.id = slotId;
+        timeCell.textContent = `${slotTime.getHours()}:${slotTime.getMinutes() < 10 ? '0' : ''}${slotTime.getMinutes()}`;
+        
         timeCell.onclick = function () {
             changeChoosenStyle(timeCell.id);
         };
-        timeContainer.appendChild(timeCell);
-    }
 
-    // Append the time container to the form
-    const choiceDialog = document.querySelector('.choiceDialog');
-    choiceDialog.appendChild(timeContainer);
+        timeContainer.appendChild(timeCell);
+
+        slotTime = breakTime; // Переход к следующему возможному слоту
+    }
 }
 
-// Function to handle time slot selection
+// Функция для обработки выбора временного слота
 function changeChoosenStyle(id) {
     const cell = document.getElementById(id);
     const timeText = document.getElementById('time');
 
-    // Get all cells
+    // Получаем все ячейки
     const allCells = document.querySelectorAll('.tableTimeFree, .tableTimeChoice, .tableTimeDisabled, .tableTimeBusy');
 
     if (cell.classList.contains('tableTimeFree')) {
-        // If the cell is free, change it to chosen
+        // Если ячейка свободна, помечаем её как выбранную
         cell.classList.replace('tableTimeFree', 'tableTimeChoice');
 
-        // Disable clicks on all other free cells
+        // Отключаем клики на остальные свободные ячейки
         allCells.forEach(anotherCell => {
             if (anotherCell !== cell && anotherCell.classList.contains('tableTimeFree')) {
                 anotherCell.onclick = null;
             }
         });
 
-        // Set the selected time
-        timeText.value = Number(id.replace('cell', ''));
+        // Устанавливаем выбранное время
+        timeText.value = cell.textContent;
     } else {
-        // If the cell was already chosen, reset it
+        // Если ячейка уже выбрана, сбрасываем её
         cell.classList.replace('tableTimeChoice', 'tableTimeFree');
 
-        // Re-enable clicks on all cells that are not disabled or busy
+        // Включаем клики на все ячейки, которые не отключены или заняты
         allCells.forEach(anotherCell => {
             if (
                 anotherCell !== cell &&
@@ -77,51 +89,12 @@ function changeChoosenStyle(id) {
             }
         });
 
-        // Reset the selected time
+        // Сбрасываем выбранное время
         timeText.value = '';
     }
 }
 
-
 function deleteChoiceDiv() {
     var div = document.getElementById('choiceDialogTime');
     div?.parentNode.removeChild(div);
-}
-
-function changeChoosenStyle(id) {
-    const cell = document.getElementById(id);
-    const timeText = document.getElementById('time');
-
-    // Получаем все ячейки
-    const allCells = document.querySelectorAll('.tableTimeFree, .tableTimeChoice, .tableTimeDisabled, .tableTimeBusy');
-
-    if (cell.classList.contains('tableTimeFree')) {
-        // Если ячейка свободна, меняем её на выбранную
-        cell.classList.replace('tableTimeFree', 'tableTimeChoice');
-
-        // Отключаем клики на все ячейки, кроме выбранной
-        allCells.forEach(anotherCell => {
-            if (anotherCell !== cell && anotherCell.classList.contains('tableTimeFree')) {
-                anotherCell.onclick = null;
-            }
-        });
-
-        // Устанавливаем выбранное время
-        timeText.value = Number(id.replace('cell', ''));
-    } else {
-        // Если ячейка уже была выбрана, сбрасываем её
-        cell.classList.replace('tableTimeChoice', 'tableTimeFree');
-
-        // Восстанавливаем клики на все ячейки, которые не заблокированы
-        allCells.forEach(anotherCell => {
-            if (anotherCell !== cell && !anotherCell.classList.contains('tableTimeDisabled') && !anotherCell.classList.contains('tableTimeBusy')) {
-                anotherCell.onclick = function() {
-                    changeChoosenStyle(anotherCell.id);
-                };
-            }
-        });
-
-        // Сбрасываем выбранное время
-        timeText.value = 0;
-    }
 }
