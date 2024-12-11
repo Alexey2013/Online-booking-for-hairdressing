@@ -15,12 +15,12 @@ body > div#content {
 }
 
 header {
-	width:100%;
-	height:50px;
-	background:#354251;
-	position:fixed;
-	top:0px;
-	z-index:5000;
+    width: 100%;
+    height: 50px;
+    background: #000;
+    position: fixed;
+    top: 0;
+    z-index: 5000;
 }
 
 header > nav {
@@ -43,7 +43,7 @@ header > nav > .logotype {
 
 header > nav > .logotype:hover {
 	background:none;
-	color:#ab69c7
+	color:#000
 }
 
 header > nav > .logotype .fa {
@@ -60,12 +60,12 @@ header > nav > a {
 	padding:0 15px;
 	transition:0.3s;
 	height:53px;
-	border-bottom:3px solid #2ecc71;
+	border-bottom:3px solid #000;
 	box-sizing:border-box;
 }
 
 header > nav > a:hover {
-	background:#474747;
+	background:#000;
 	height:50px;
 	transition:0.3s;
 }
@@ -81,12 +81,12 @@ header > nav > a:hover {
 	font-weight:normal;
 	font-size:19px;
 	color:#ffffff;
-	background-color:#354251;
+	background-color:#000;
 }
 
 .table td {
 	font-size:15px;
-	color:#354251;
+	color:#000;
 }
 
 .table td, .table th {
@@ -94,15 +94,15 @@ header > nav > a:hover {
 	padding:10px 5px;
 	line-height:15px;
 	vertical-align: middle;
-	border: 2px solid #0a2336;
+	border: 2px solid #000;
 }
 
 .table tr:hover {
-	background-color:#ab69c7
+	background-color:#000
 }
 
 .table tr:hover td {
-	color:#354251;
+	color:#ffffff;
 	cursor:pointer;
 }
 
@@ -119,26 +119,27 @@ header > nav > a:hover {
 	padding:10px 5px;
 	line-height:15px;
 	vertical-align: middle;
-	border: 2px solid #0a2336;
+	border: 2px solid #000;
 	border-radius: 10px;
 }
 
 .tableTimeBusy {
-	color: #0a2336;
+	color: #000;
 }
 
 .tableTimeBusy {
 	color: #ffffff;
-	background: #0a2336;
+	background: #000;
 }
 
 .tableTimeDisabled {
 	color: #ffffff;
-	background: #354251;
+	background: #000;
 }
 
 .tableTimeFree:hover, .tableTimeChoice {
-	background-color:#ab69c7;
+	color: #ffffff;
+	background: #000;
 	cursor:pointer;
 }
 
@@ -155,8 +156,8 @@ header > nav > a:hover {
 	border:none;
 	transition:0.2s;
 	box-sizing:border-box;
-	color:#fff;
-	background-color:#0a2336;
+	color:#ffffff;
+	background-color:#000;
 	margin: 3px;
 	padding: 0px 15px;
 	font-size: 16px;
@@ -165,7 +166,7 @@ header > nav > a:hover {
 }
 
 .btn:hover {
-	background-color:#ab69c7;
+	background-color:#ffffff;
 }
 
 .btn:focus {
@@ -200,7 +201,7 @@ header > nav > a:hover {
 	margin: 5% auto;
 	padding: 5px 20px 13px 20px;
 	border-radius: 10px;
-	background: #EDEEF0;
+	background: #ffffff;
 	min-height:650px;
 }
 
@@ -222,7 +223,7 @@ header > nav > a:hover {
 }
 
 .close {
-	background: #606061;
+	background: #000;
 	color: #FFFFFF;
 	line-height: 25px;
 	position: absolute;
@@ -234,11 +235,11 @@ header > nav > a:hover {
 	border-radius: 12px;
 	-webkit-border-radius: 12px;
 	-moz-border-radius: 12px;
-	-moz-box-shadow: 1px 1px 3px #000;
-	-webkit-box-shadow: 1px 1px 3px #000;
-	box-shadow: 1px 1px 3px #000;
+	-moz-box-shadow: 1px 1px 3px #ffffff;
+	-webkit-box-shadow: 1px 1px 3px #ffffff;
+	box-shadow: 1px 1px 3px #ffffff;
 }
 
 .close:hover {
-	background-color:#ab69c7
+	background-color:#ffffff
 }

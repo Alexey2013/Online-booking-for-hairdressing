@@ -1,16 +1,18 @@
 function renderChoice(param) {
-    getData(param);
-    createDivWithTable();
-}
-
-function getData(param) {
     let elems = ["type", "price", "duration"]
 
     for (let elem of elems) {
         var text = document.getElementById(elem);
         text.value = document.getElementById(elem + param).textContent.toString();
     }
+
+    createDivWithTable();
 }
+
+function setServiceType(serviceName) {
+    document.getElementById('service-type').innerText = serviceName;
+}
+
 
 function createDivWithTable() {
     var request = new XMLHttpRequest();
@@ -26,7 +28,7 @@ function createDivWithTable() {
 
                 var time = document.createElement('p');
                 var timeB = document.createElement('b');
-                var timeText = document.createTextNode('Время:');
+                var timeText = document.createTextNode('Свободное время:');
                 timeB.appendChild(timeText);
                 time.appendChild(timeB);
 

@@ -5,7 +5,7 @@ const path = require('path');
 const mongojs = require('mongojs');
 
 const app = express();
-app.set("view engine", "ejs");
+app.set('views', path.join(__dirname, 'public')); 
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const database = mongojs('barbershop');
@@ -38,7 +38,7 @@ app.post('/:choice', urlencodedParser, function (request, response) {
         service_type: request.body.type
     }, function (error, service) {
         if (service) {
-            var appointment = {
+            const appointment = {
                 name: request.body.name,
                 start_time: Number(request.body.time),
                 duration: Number(request.body.duration),
@@ -49,7 +49,6 @@ app.post('/:choice', urlencodedParser, function (request, response) {
             database.collection('appointments').insertOne(appointment, function (error, result) {
                 if (error) return response.sendStatus(500);
             });
-
             response.send('Data successfully sent to the server. To return to the site, click <a href="/">here</a>');
         } else {
             response.send('The server received incorrect parameters.');

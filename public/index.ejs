@@ -40,8 +40,6 @@
 <div id="choice" class="choiceDialog">
     <div>
         <a href="#close" title="Закрыть" class="close" onclick="deleteChoiceDiv()">X</a>
-        <h2>Запись</h2>
-        <p>Заполните данные:</p>
         <form action="choice" method="post">
             <div class="choiceDialogData">
                 <p><b>Имя:</b><br>
@@ -50,17 +48,23 @@
                 <p><b>Телефон:</b><br>
                 <p><input type = "telephone" name="mobile" placeholder="+88005553535" required class="text"></p>
 
+                <p><b>Услуга:</b><br>
+                <p><input type = "text" name="type" readonly="readonly" id="type" class="text"></p>
+
                 <p><b>Стоимость, руб.:</b><br>
                 <p><input type = "text" name="price" readonly="readonly" id="price" class="text"></p>
+
+                <p><b>Продолжительность, мин.:</b><br>
+                <p><input type = "number" name="duration" readonly="readonly" id="duration" class="text"></p>
 
                 <p><input type = "text" name="time" readonly="readonly" id="time" required style="visibility: hidden;"></p>
             </div>
             <div class="btn" onclick="deleteChoiceDiv()">
-                <p><input type = "submit" value="Записаться" class="btn"></p>
+                <p><input type = "submit" value="Отправить" class="btn"></p>
             </div>
         </form>
     </div>
 </div>
 
 </body>
-</html>
+<html>
