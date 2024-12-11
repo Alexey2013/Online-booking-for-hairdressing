@@ -12,50 +12,44 @@
 
 <header>
     <nav>
-        <a class="logotype" href="">Парикмахерская</a>
+        <a class="logo" href="">Парикмахерская</a>
     </nav>
 </header>
 
-<div id="content">
-    <div class="services-container">
+<div id="main-content">
+    <div class="service-list">
         <% services.forEach(function(service, i) {%>
-            <div class="service-card" id="service<%= i + 1 %>" onclick="window.location.href='#choice'; renderChoice('<%= i + 1 %>');">
-                <div class="service-title"><%= service.service_name %></div>
-                <div class="service-duration">Продолжительность: <%= service.service_time %> мин.</div>
-                <div class="service-price">Стоимость: <%= service.service_price %> руб.</div>
+            <div class="service-card" id="service<%= i + 1 %>" onclick="window.location.href='#dialog'; selectService('<%= i + 1 %>');">
+                <div class="service-name"><%= service.service_name %></div>
+                <div class="service-time">Продолжительность: <%= service.service_time %> мин.</div>
+                <div class="service-cost">Стоимость: <%= service.service_price %> руб.</div>
             </div>
         <% }) %>
     </div>
 </div>
 
-
-<div id="choice" class="choiceDialog">
+<div id="dialog" class="dialog">
     <div>
-        <a href="#close" title="Закрыть" class="close" onclick="deleteChoiceDiv()">X</a>
+        <a href="#close" title="Закрыть" class="close-button" onclick="closeDialog()">X</a>
         <form action="choice" method="post">
-            <div class="choiceDialogData">
+            <div class="dialog-content">
                 <p><b>Имя:</b><br>
                 <p><input type="text" name="name" required class="text"></p>
 
                 <p><b>Телефон:</b><br>
                 <p><input type="telephone" name="mobile" required class="text"></p>
 
-                <p><b>Услуга:</b><br>
-                <p><input type="text" name="type" readonly="readonly" id="type" class="text"></p>
-
-                <p><b>Стоимость, руб.:</b><br>
-                <p><input type="text" name="price" readonly="readonly" id="price" class="text"></p>
-
-                <p><b>Продолжительность, мин.:</b><br>
-                <p><input type="number" name="duration" readonly="readonly" id="duration" class="text"></p>
+                <p><input type="hidden" name="service-type" id="service-type" class="text"></p>
+                <p><input type="hidden" name="service-price" id="service-price" class="text"></p>
+                <p><input type="hidden" name="service-duration" id="service-duration" class="text"></p>
 
                 <p><b>Время:</b><br>
-                <div id="timeSlots" class="time-container"></div>
+                <div id="timeSlots" class="time-selection"></div>
 
                 <p><input type="text" name="time" readonly="readonly" id="time" required style="visibility: hidden;"></p>
             </div>
-            <div class="btn">
-                <p><input type="submit" value="Записаться" class="btn"></p>
+            <div class="button">
+                <p><input type="submit" value="Записаться" class="button"></p>
             </div>
         </form>
     </div>

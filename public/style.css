@@ -5,7 +5,7 @@ body {
     color: #333;
 }
 
-body > div#content {
+body > div#main-content {
     width: 70%;
     margin: 0 auto;
     margin-top: 60px;
@@ -30,7 +30,7 @@ header > nav {
     height: 50px;
 }
 
-header > nav > .logotype {
+header > nav > .logo {
     line-height: 50px;
     color: #ffffff;
     font-size: 26px;
@@ -40,7 +40,7 @@ header > nav > .logotype {
     border: none;
 }
 
-header > nav > .logotype:hover {
+header > nav > .logo:hover {
     background: none;
     color: #004680;
 }
@@ -64,9 +64,9 @@ header > nav > a:hover {
     transition: 0.3s;
 }
 
-.btn {
+.button {
     text-align: center;
-    border-radius: 2px;
+    border-radius: 20px;
     display: inline-block;
     cursor: pointer;
     text-decoration: none;
@@ -76,17 +76,18 @@ header > nav > a:hover {
     color: #ffffff;
     background-color: #004680;
     margin: 3px;
-    padding: 0px 15px;
-    font-size: 16px;
-    line-height: 42px;
-    width: 30%;
+    padding: 2px 10px;
+    font-size: 12px;
+    line-height: 10px;
+    width: auto;
+    margin-left: auto;
 }
 
-.btn:hover {
+.button:hover {
     background-color: #003366;
 }
 
-.choiceDialog {
+.dialog {
     position: fixed;
     font-family: Arial, Helvetica, sans-serif;
     top: 0;
@@ -100,36 +101,36 @@ header > nav > a:hover {
     pointer-events: none;
 }
 
-.choiceDialog:target {
+.dialog:target {
     display: block;
     pointer-events: auto;
 }
 
-.choiceDialog > div {
+.dialog > div {
     display: block;
-    width: 700px;
+    width: 400px;
     position: relative;
     margin: 5% auto;
-    padding: 5px 20px 13px 20px;
+    padding: 10px 20px 10px 20px;
     border-radius: 10px;
     background: #ffffff;
-    min-height: 650px;
+    min-height: 400px;
 }
 
-.choiceDialog div.choiceDialogData {
+.dialog div.dialog-content {
     position: absolute;
     left: 2%;
     top: 2%;
 }
 
-.choiceDialog div.btn {
+.dialog div.button {
     position: absolute;
-    left: 15%;
-    top: 85%;
-    width: 500px;
+    left: 50%;
+    top: 80%;
+    width: 200px;
 }
 
-.close {
+.close-button {
     background: #004680;
     color: #FFFFFF;
     line-height: 24px;
@@ -143,13 +144,13 @@ header > nav > a:hover {
     cursor: pointer;
 }
 
-.close:hover {
+.close-button:hover {
     background: #003366;
 }
 
-.services-container {
+.service-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
     padding: 20px;
 }
@@ -158,31 +159,31 @@ header > nav > a:hover {
     background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .service-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.service-title {
-    font-size: 18px;
+.service-name {
+    font-size: 20px;
     font-weight: bold;
     margin-bottom: 10px;
     color: #004680;
 }
 
-.service-duration,
-.service-price {
-    font-size: 14px;
+.service-time,
+.service-cost {
+    font-size: 16px;
     color: #555;
 }
 
-.time-container {
+.time-selection {
     max-height: 200px;
     overflow-y: auto;
     display: flex;
@@ -191,7 +192,7 @@ header > nav > a:hover {
     margin-top: 10px;
 }
 
-.time-container div {
+.time-selection div {
     padding: 5px 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -200,22 +201,22 @@ header > nav > a:hover {
     transition: background-color 0.2s, color 0.2s;
 }
 
-.time-container div.tableTimeFree {
+.time-selection div.available {
     color: #333;
 }
 
-.time-container div.tableTimeChoice {
+.time-selection div.selected {
     background-color: #004680;
     color: #fff;
 }
 
-.time-container div.tableTimeBusy {
+.time-selection div.unavailable {
     background-color: #ddd;
     color: #999;
     cursor: not-allowed;
 }
 
-.time-container div:hover.tableTimeFree {
+.time-selection div:hover.available {
     background-color: #004680;
     color: #fff;
 }
