@@ -1,4 +1,4 @@
-function selectService(serviceId) {
+function selection(serviceId) {
     const serviceCard = document.getElementById('service' + serviceId);
     const serviceName = serviceCard.querySelector('.service-name').textContent;
     const serviceDuration = serviceCard.querySelector('.service-time').textContent.replace('Продолжительность: ', '').replace(' мин.', '');
@@ -8,8 +8,16 @@ function selectService(serviceId) {
     document.getElementById('service-price').value = serviceCost;
     document.getElementById('service-duration').value = serviceDuration;
 
+    // Логируем, чтобы убедиться, что данные корректно установлены
+    console.log('Значения для скрытых полей:', {
+        serviceName,
+        serviceCost,
+        serviceDuration
+    });
+
     displayAvailableTimes(serviceDuration);
 }
+
 
 function displayAvailableTimes(serviceDuration) {
     const timeContainer = document.getElementById('timeSlots');

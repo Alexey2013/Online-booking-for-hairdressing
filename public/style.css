@@ -5,7 +5,7 @@ body {
     color: #333;
 }
 
-body > div#main-content {
+body > div#service-list {
     width: 70%;
     margin: 0 auto;
     margin-top: 60px;
@@ -30,7 +30,7 @@ header > nav {
     height: 50px;
 }
 
-header > nav > .logo {
+header > .logo {
     line-height: 50px;
     color: #ffffff;
     font-size: 26px;
@@ -87,7 +87,7 @@ header > nav > a:hover {
     background-color: #003366;
 }
 
-.dialog {
+.window {
     position: fixed;
     font-family: Arial, Helvetica, sans-serif;
     top: 0;
@@ -101,12 +101,12 @@ header > nav > a:hover {
     pointer-events: none;
 }
 
-.dialog:target {
+.window:target {
     display: block;
     pointer-events: auto;
 }
 
-.dialog > div {
+.window > div {
     display: block;
     width: 400px;
     position: relative;
@@ -117,13 +117,13 @@ header > nav > a:hover {
     min-height: 400px;
 }
 
-.dialog div.dialog-content {
+.window div.window-content {
     position: absolute;
     left: 2%;
     top: 2%;
 }
 
-.dialog div.button {
+.window div.button {
     position: absolute;
     left: 50%;
     top: 80%;

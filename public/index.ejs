@@ -16,23 +16,23 @@
     </nav>
 </header>
 
-<div id="main-content">
+<div id="service-list">
     <div class="service-list">
         <% services.forEach(function(service, i) {%>
-            <div class="service-card" id="service<%= i + 1 %>" onclick="window.location.href='#dialog'; selectService('<%= i + 1 %>');">
+            <div class="service-card" id="service<%= i + 1 %>" onclick="window.location.href='#window'; selection('<%= i + 1 %>');">
                 <div class="service-name"><%= service.service_name %></div>
-                <div class="service-time">Продолжительность: <%= service.service_time %> мин.</div>
-                <div class="service-cost">Стоимость: <%= service.service_price %> руб.</div>
+                <div class="service-time"><%= service.service_time %> мин.</div>
+                <div class="service-cost"><%= service.service_price %> руб.</div>
             </div>
         <% }) %>
     </div>
 </div>
 
-<div id="dialog" class="dialog">
+<div id="window" class="window">
     <div>
         <a href="#close" title="Закрыть" class="close-button" onclick="closeDialog()">X</a>
         <form action="choice" method="post">
-            <div class="dialog-content">
+            <div class="window-content">
                 <p><b>Имя:</b><br>
                 <p><input type="text" name="name" required class="text"></p>
 
