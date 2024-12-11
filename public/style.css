@@ -1,245 +1,230 @@
 body {
-	background:#EDEEF0;
-	font-family: Open Sans;
-	padding:0;margin:0;
-	font-size:14px;
-	overflow-y:scroll;
+    background: #f4f4f9;
+    font-size: 14px;
+    overflow-y: scroll;
+    color: #333;
 }
 
 body > div#content {
-	width:70%;
-	margin:0 auto;
-	margin-top:60px;
-	position:relative;
-	min-height:calc(100vh - 120px)
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 60px;
+    position: relative;
+    min-height: calc(100vh - 120px);
 }
 
 header {
     width: 100%;
     height: 50px;
-    background: #000;
+    background: #004680;
     position: fixed;
     top: 0;
     z-index: 5000;
 }
 
 header > nav {
-	width:72%;
-	margin:0 auto;
-	text-align:right;
-	overflow:hidden;
-	height:50px;
+    width: 72%;
+    margin: 0 auto;
+    text-align: right;
+    overflow: hidden;
+    height: 50px;
 }
 
 header > nav > .logotype {
-	line-height:50px;
-	color:#fff;
-	font-size:26px;
-	font-weight:bold;
-	text-decoration:none;
-	float:left;
-	border:none;
+    line-height: 50px;
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: bold;
+    text-decoration: none;
+    float: left;
+    border: none;
 }
 
 header > nav > .logotype:hover {
-	background:none;
-	color:#000
-}
-
-header > nav > .logotype .fa {
-	font-weight: normal !important;
-	margin-right: 10px;
+    background: none;
+    color: #004680;
 }
 
 header > nav > a {
-	line-height:48px;
-	font-size:16px;
-	color:#fff;
-	text-decoration:none;
-	display:inline-block;
-	padding:0 15px;
-	transition:0.3s;
-	height:53px;
-	border-bottom:3px solid #000;
-	box-sizing:border-box;
+    line-height: 48px;
+    font-size: 16px;
+    color: #ffffff;
+    text-decoration: none;
+    display: inline-block;
+    padding: 0 15px;
+    transition: 0.3s;
+    height: 53px;
+    border-bottom: 3px solid #004680;
+    box-sizing: border-box;
 }
 
 header > nav > a:hover {
-	background:#000;
-	height:50px;
-	transition:0.3s;
-}
-
-.table {
-	text-decoration: none;
-	border-collapse:collapse;
-	width:100%;
-	text-align:left;
-}
-
-.table th {
-	font-weight:normal;
-	font-size:19px;
-	color:#ffffff;
-	background-color:#000;
-}
-
-.table td {
-	font-size:15px;
-	color:#000;
-}
-
-.table td, .table th {
-	white-space:pre-wrap;
-	padding:10px 5px;
-	line-height:15px;
-	vertical-align: middle;
-	border: 2px solid #000;
-}
-
-.table tr:hover {
-	background-color:#000
-}
-
-.table tr:hover td {
-	color:#ffffff;
-	cursor:pointer;
-}
-
-.tableTime {
-	text-decoration: none;
-	width:100%;
-	text-align:left;
-}
-
-.tableTimeFree, .tableTimeBusy, .tableTimeDisabled, .tableTimeChoice {
-	font-weight:normal;
-	font-size:14px;
-	white-space:pre-wrap;
-	padding:10px 5px;
-	line-height:15px;
-	vertical-align: middle;
-	border: 2px solid #000;
-	border-radius: 10px;
-}
-
-.tableTimeBusy {
-	color: #000;
-}
-
-.tableTimeBusy {
-	color: #ffffff;
-	background: #000;
-}
-
-.tableTimeDisabled {
-	color: #ffffff;
-	background: #000;
-}
-
-.tableTimeFree:hover, .tableTimeChoice {
-	color: #ffffff;
-	background: #000;
-	cursor:pointer;
-}
-
-.text {
-	width: 250px;
+    background: #004680;
+    height: 50px;
+    transition: 0.3s;
 }
 
 .btn {
-	text-align:center;
-	border-radius:2px;
-	display:inline-block;
-	cursor:pointer;
-	text-decoration:none;
-	border:none;
-	transition:0.2s;
-	box-sizing:border-box;
-	color:#ffffff;
-	background-color:#000;
-	margin: 3px;
-	padding: 0px 15px;
-	font-size: 16px;
-	line-height: 42px;
-	width: 30%;
+    text-align: center;
+    border-radius: 2px;
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    transition: 0.2s;
+    box-sizing: border-box;
+    color: #ffffff;
+    background-color: #004680;
+    margin: 3px;
+    padding: 0px 15px;
+    font-size: 16px;
+    line-height: 42px;
+    width: 30%;
 }
 
 .btn:hover {
-	background-color:#ffffff;
-}
-
-.btn:focus {
-	outline: none !important;
+    background-color: #003366;
 }
 
 .choiceDialog {
-	position: fixed;
-	font-family: Arial, Helvetica, sans-serif;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	background: rgba(0,0,0,0.8);
-	z-index: 99999;
-	-webkit-transition: opacity 400ms ease-in;
-	-moz-transition: opacity 400ms ease-in;
-	transition: opacity 400ms ease-in;
-	display: none;
-	pointer-events: none;
+    position: fixed;
+    font-family: Arial, Helvetica, sans-serif;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 99999;
+    transition: opacity 400ms ease-in;
+    display: none;
+    pointer-events: none;
 }
 
 .choiceDialog:target {
-	display: block;
-	pointer-events: auto;
+    display: block;
+    pointer-events: auto;
 }
 
 .choiceDialog > div {
-	display: block;
-	width: 700px;
-	position: relative;
-	margin: 5% auto;
-	padding: 5px 20px 13px 20px;
-	border-radius: 10px;
-	background: #ffffff;
-	min-height:650px;
+    display: block;
+    width: 700px;
+    position: relative;
+    margin: 5% auto;
+    padding: 5px 20px 13px 20px;
+    border-radius: 10px;
+    background: #ffffff;
+    min-height: 650px;
 }
 
 .choiceDialog div.choiceDialogData {
-	position:absolute;
-	left: 2%;
+    position: absolute;
+    left: 2%;
 }
 
 .choiceDialog div.choiceDialogTime {
-	position:absolute;
-	left: 50%;
+    position: absolute;
+    left: 50%;
 }
 
 .choiceDialog div.btn {
-	position:absolute;
-	left: 15%;
-	top: 85%;
-	width: 500px;
+    position: absolute;
+    left: 15%;
+    top: 85%;
+    width: 500px;
 }
 
 .close {
-	background: #000;
-	color: #FFFFFF;
-	line-height: 25px;
-	position: absolute;
-	right: -12px;
-	text-align: center;
-	top: -10px;
-	width: 24px;
-	text-decoration: none;
-	border-radius: 12px;
-	-webkit-border-radius: 12px;
-	-moz-border-radius: 12px;
-	-moz-box-shadow: 1px 1px 3px #ffffff;
-	-webkit-box-shadow: 1px 1px 3px #ffffff;
-	box-shadow: 1px 1px 3px #ffffff;
+    background: #004680;
+    color: #FFFFFF;
+    line-height: 24px;
+    position: absolute;
+    right: -12px;
+    top: -10px;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 .close:hover {
-	background-color:#ffffff
+    background: #003366;
+}
+
+.services-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.service-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.service-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.service-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #004680;
+}
+
+.service-duration,
+.service-price {
+    font-size: 14px;
+    color: #555;
+}
+
+.time-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f4f4f9;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.time-container div {
+    margin: 5px 0;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #ffffff;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.time-container div.tableTimeFree {
+    color: #333;
+}
+
+.time-container div.tableTimeChoice {
+    background-color: #004680;
+    color: #fff;
+}
+
+.time-container div.tableTimeBusy {
+    background-color: #ddd;
+    color: #999;
+    cursor: not-allowed;
+}
+
+.time-container div:hover.tableTimeFree {
+    background-color: #004680;
+    color: #fff;
 }

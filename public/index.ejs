@@ -17,25 +17,17 @@
 </header>
 
 <div id="content">
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Услуга</th>
-            <th>Продолжительность, мин.</th>
-            <th>Стоимость, руб.</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% services.forEach(function(serviсe, i) {%>
-            <tr id="<%= i + 1 %>" onclick="window.location.href='#choice';renderChoice(document.getElementById('<%= i + 1 %>').id);">
-                <td id="type<%= i + 1 %>"><%= serviсe.service_type %></td>
-                <td id="duration<%= i + 1 %>"><%= serviсe.service_time %></td>
-                <td id="price<%= i + 1 %>"><%= serviсe.service_price %></td>
-            </tr>
+    <div class="services-container">
+        <% services.forEach(function(service, i) {%>
+            <div class="service-card" id="service<%= i + 1 %>" onclick="window.location.href='#choice'; renderChoice('<%= i + 1 %>');">
+                <div class="service-title"><%= service.service_name %></div>
+                <div class="service-duration">Продолжительность: <%= service.service_time %> мин.</div>
+                <div class="service-price">Стоимость: <%= service.service_price %> руб.</div>
+            </div>
         <% }) %>
-        </tbody>
-    </table>
+    </div>
 </div>
+
 
 <div id="choice" class="choiceDialog">
     <div>
@@ -43,28 +35,28 @@
         <form action="choice" method="post">
             <div class="choiceDialogData">
                 <p><b>Имя:</b><br>
-                <p><input type = "text" name="name" required class="text"></p>
+                <p><input type="text" name="name" required class="text"></p>
 
                 <p><b>Телефон:</b><br>
-                <p><input type = "telephone" name="mobile" placeholder="+88005553535" required class="text"></p>
+                <p><input type="telephone" name="mobile" required class="text"></p>
 
                 <p><b>Услуга:</b><br>
-                <p><input type = "text" name="type" readonly="readonly" id="type" class="text"></p>
+                <p><input type="text" name="type" readonly="readonly" id="type" class="text"></p>
 
                 <p><b>Стоимость, руб.:</b><br>
-                <p><input type = "text" name="price" readonly="readonly" id="price" class="text"></p>
+                <p><input type="text" name="price" readonly="readonly" id="price" class="text"></p>
 
                 <p><b>Продолжительность, мин.:</b><br>
-                <p><input type = "number" name="duration" readonly="readonly" id="duration" class="text"></p>
+                <p><input type="number" name="duration" readonly="readonly" id="duration" class="text"></p>
 
-                <p><input type = "text" name="time" readonly="readonly" id="time" required style="visibility: hidden;"></p>
+                <p><input type="text" name="time" readonly="readonly" id="time" required style="visibility: hidden;"></p>
             </div>
-            <div class="btn" onclick="deleteChoiceDiv()">
-                <p><input type = "submit" value="Отправить" class="btn"></p>
+            <div class="btn">
+                <p><input type="submit" value="Записаться" class="btn"></p>
             </div>
         </form>
     </div>
 </div>
 
 </body>
-<html>
+</html>
