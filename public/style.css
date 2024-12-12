@@ -5,12 +5,12 @@ body {
     color: #333;
 }
 
-body > div#service-list {
+#service-list {
     width: 70%;
     margin: 0 auto;
-    margin-top: 60px;
+    margin-top: 4rem;
     position: relative;
-    min-height: calc(100vh - 120px);
+    min-height: 100dvh;
 }
 
 header {
@@ -22,7 +22,7 @@ header {
     z-index: 5000;
 }
 
-header > nav {
+header > h1 {
     width: 72%;
     margin: 0 auto;
     text-align: right;
@@ -30,7 +30,7 @@ header > nav {
     height: 50px;
 }
 
-header > .logo {
+header > .name {
     line-height: 50px;
     color: #ffffff;
     font-size: 26px;
@@ -40,28 +40,9 @@ header > .logo {
     border: none;
 }
 
-header > nav > .logo:hover {
+header > .name:hover {
     background: none;
     color: #004680;
-}
-
-header > nav > a {
-    line-height: 48px;
-    font-size: 16px;
-    color: #ffffff;
-    text-decoration: none;
-    display: inline-block;
-    padding: 0 15px;
-    transition: 0.3s;
-    height: 53px;
-    border-bottom: 3px solid #004680;
-    box-sizing: border-box;
-}
-
-header > nav > a:hover {
-    background: #004680;
-    height: 50px;
-    transition: 0.3s;
 }
 
 .button {
