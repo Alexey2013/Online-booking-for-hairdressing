@@ -1,5 +1,4 @@
-const express = require('express');
-const MongoClient = require('mongodb').MongoClient;
+const express = require('express');const MongoClient = require('mongodb').MongoClient;
 const path = require('path');
 const app = express();
 const databaseUrl = 'mongodb://localhost:27017/database';
@@ -17,77 +16,64 @@ app.get("/", async function (req, res) {
 
         res.render('index.ejs', { services: servicesList, appointments: appointmentsList });
     } catch (err) {
-        res.status(500).send('Ошибка базы данных');
+        res.send('Database error');
     }
 });
 
-app.get("/:category", function (req, res) {
-    MongoClient.connect(databaseUrl, { useUnifiedTopology: true }, function (err, connection) {
-        if (err) {
-            return res.status(500).send('Ошибка подключения к базе данных');
-        }
-
+app.get("/:category", async function (req, res) {
+    try {
+        const connection = await MongoClient.connect(databaseUrl, { useUnifiedTopology: true });
         const db = connection.db('database');
-        db.collection('appointments').find().toArray(function (err, appointmentsList) {
-            if (err) {
-                return res.status(500).send('Не удалось получить записи');
-            }
-            res.send(appointmentsList);
-        });
-    });
+        const appointmentsList = await db.collection('appointments').find().toArray();
+
+        res.send(appointmentsList);
+    } catch (err) {
+        res.send('Failed to retrieve appointments');
+    }
 });
 
-app.post('/:category', function (req, res) {
+app.post('/:category', async function (req, res) {
     const { 'service-price': price, 'service-duration': duration, 'service-type': type, name, time, mobile } = req.body;
 
     if (!price || !duration || !type || !name || !time || !mobile) {
-        return res.send('Некорректные параметры.');
+        return res.send('Invalid parameters.');
     }
 
-    MongoClient.connect(databaseUrl, { useUnifiedTopology: true }, function (err, connection) {
-        if (err) {
-            return res.status(500).send('Ошибка подключения к базе данных');
-        }
-
+    try {
+        const connection = await MongoClient.connect(databaseUrl, { useUnifiedTopology: true });
         const db = connection.db('database');
         const priceNumber = Number(price);
         const durationNumber = Number(duration);
         const timeParts = time.split(':');
         const appointmentTime = Number(timeParts[0]) * 60 + Number(timeParts[1]);
 
-        db.collection('appointments').findOne({
+        const existingAppointment = await db.collection('appointments').findOne({
             $and: [
                 { start_time: appointmentTime },
                 { type: type }
             ]
-        }, function (err, existingAppointment) {
-            if (err) {
-                return res.status(500).send('Ошибка проверки времени');
-            }
-
-            if (existingAppointment) {
-                return res.send('Этот временной интервал уже занят, выберите другое время.');
-            }
-
-            const newAppointment = {
-                name: name,
-                start_time: appointmentTime,
-                duration: durationNumber,
-                type: type,
-                phone: mobile
-            };
-
-            db.collection('appointments').insertOne(newAppointment, function (err, result) {
-                if (err) {
-                    return res.status(500).send('Не удалось записаться на прием');
-                }
-                const endTime = appointmentTime + durationNumber;
-                res.send(`Запись успешно оформлена `);
-            });
         });
-    });
+
+        if (existingAppointment) {
+            return res.send('This time slot is already booked, please choose another time.');
+        }
+
+        const newAppointment = {
+            name: name,
+            start_time: appointmentTime,
+            duration: durationNumber,
+            type: type,
+            phone: mobile
+        };
+
+        await db.collection('appointments').insertOne(newAppointment);
+        const endTime = appointmentTime + durationNumber;
+        res.send('Appointment booked successfully');
+    } catch (err) {
+        res.send('Failed to book appointment');
+    }
 });
 
 app.listen(8000, function () {
-    console.log('Сервер работает на http://localhost:8000');
+    console.log('Server is running on http://localhost:8000');
 });
