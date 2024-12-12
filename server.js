@@ -2,10 +2,10 @@ const express = require('express');const MongoClient = require('mongodb').MongoC
 const path = require('path');
 const app = express();
 const databaseUrl = 'mongodb://localhost:27017/database';
-app.set('views', path.join(__dirname, 'public'));
+app.set('views', path.join(__dirname, 'client'));
 app.use(express.urlencoded({ extended: false }));
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'client')));
 
 app.get("/", async function (req, res) {
     try {
