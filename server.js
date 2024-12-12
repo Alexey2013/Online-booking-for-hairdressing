@@ -52,7 +52,8 @@ app.post('/:category', function (req, res) {
         const db = connection.db('barbershop');
         const priceNumber = Number(price);
         const durationNumber = Number(duration);
-        const appointmentTime = Number(time);
+        const timeParts = time.split(':');
+        const appointmentTime = Number(timeParts[0]) * 60 + Number(timeParts[1]);
 
         db.collection('appointments').findOne({
             $and: [
@@ -80,7 +81,8 @@ app.post('/:category', function (req, res) {
                 if (err) {
                     return res.status(500).send('Не удалось записаться на прием');
                 }
-                res.send('Запись успешно оформлена!');
+                const endTime = appointmentTime + durationNumber;
+                res.send(`Запись успешно оформлена на ${Math.floor(appointmentTime / 60)}:${appointmentTime % 60}-${Math.floor(endTime / 60)}:${endTime % 60}.`);
             });
         });
     });

@@ -24,26 +24,51 @@ function displayAvailableTimes(serviceDuration) {
 
     let slotStart = new Date(workStart);
 
-    while (slotStart <= workEnd) {
-        const slotEnd = new Date(slotStart.getTime() + serviceDuration * 60000);
-        const breakTime = new Date(slotEnd.getTime() + 5 * 60000);
+    fetch('/get-appointments')
+        .then(response => response.json())
+        .then(appointments => {
+            while (slotStart <= workEnd) {
+                const slotEnd = new Date(slotStart.getTime() + serviceDuration * 60000);
+                const breakTime = new Date(slotEnd.getTime() + 5 * 60000);
 
-        const slotId = `slot-${slotStart.getHours()}:${slotStart.getMinutes()}`;
-        timeSlots.push({ start: slotStart, end: slotEnd, id: slotId });
+                const slotId = `slot-${slotStart.getHours()}:${slotStart.getMinutes()}`;
+                timeSlots.push({ start: slotStart, end: slotEnd, id: slotId });
 
-        const timeCell = document.createElement('div');
-        timeCell.className = 'available';
-        timeCell.id = slotId;
-        timeCell.textContent = `${slotStart.getHours()}:${slotStart.getMinutes() < 10 ? '0' : ''}${slotStart.getMinutes()}`;
+                let isAvailable = true;
 
-        timeCell.onclick = function () {
-            updateSelectedTime(timeCell.id);
-        };
+                appointments.forEach(appointment => {
+                    const appointmentStart = appointment.start_time;
+                    const appointmentEnd = appointmentStart + appointment.duration;
 
-        timeContainer.appendChild(timeCell);
+                    const slotStartMinutes = slotStart.getHours() * 60 + slotStart.getMinutes();
+                    const slotEndMinutes = slotEnd.getHours() * 60 + slotEnd.getMinutes();
 
-        slotStart = breakTime;
-    }
+                    if (slotStartMinutes >= appointmentStart && slotStartMinutes < appointmentEnd ||
+                        slotEndMinutes > appointmentStart && slotEndMinutes <= appointmentEnd) {
+                        isAvailable = false;
+                    }
+                });
+
+                const timeCell = document.createElement('div');
+                timeCell.id = slotId;
+
+                if (isAvailable) {
+                    timeCell.className = 'available';
+                    timeCell.textContent = `${slotStart.getHours()}:${slotStart.getMinutes() < 10 ? '0' : ''}${slotStart.getMinutes()}`;
+                    timeCell.onclick = function () {
+                        updateSelectedTime(timeCell.id);
+                    };
+                } else {
+                    timeCell.className = 'unavailable';
+                    timeCell.textContent = `${slotStart.getHours()}:${slotStart.getMinutes() < 10 ? '0' : ''}${slotStart.getMinutes()}`;
+                }
+
+                timeContainer.appendChild(timeCell);
+
+                slotStart = breakTime;
+            }
+        })
+        .catch(error => console.error('Ошибка загрузки записей:', error));
 }
 
 function updateSelectedTime(id) {
