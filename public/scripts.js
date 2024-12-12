@@ -1,4 +1,4 @@
-function selection(serviceId) {
+function selectService(serviceId) {
     const serviceCard = document.getElementById('service' + serviceId);
     const serviceName = serviceCard.querySelector('.service-name').textContent;
     const serviceDuration = serviceCard.querySelector('.service-time').textContent.replace('Продолжительность: ', '').replace(' мин.', '');
@@ -8,11 +8,10 @@ function selection(serviceId) {
     document.getElementById('service-price').value = serviceCost;
     document.getElementById('service-duration').value = serviceDuration;
 
-    displayAvailableTimes(serviceDuration);
+    displayAvailableTimeSlots(serviceDuration);
 }
 
-
-function displayAvailableTimes(serviceDuration) {
+function displayAvailableTimeSlots(serviceDuration) {
     const timeContainer = document.getElementById('timeSlots');
     timeContainer.innerHTML = '';
 
@@ -56,7 +55,7 @@ function displayAvailableTimes(serviceDuration) {
                     timeCell.className = 'available';
                     timeCell.textContent = `${slotStart.getHours()}:${slotStart.getMinutes() < 10 ? '0' : ''}${slotStart.getMinutes()}`;
                     timeCell.onclick = function () {
-                        updateSelectedTime(timeCell.id);
+                        selectTime(timeCell.id);
                     };
                 } else {
                     timeCell.className = 'unavailable';
@@ -71,7 +70,7 @@ function displayAvailableTimes(serviceDuration) {
         .catch(error => console.error('Ошибка загрузки записей:', error));
 }
 
-function updateSelectedTime(id) {
+function selectTime(id) {
     const selectedCell = document.getElementById(id);
     const timeInput = document.getElementById('time');
 
@@ -96,7 +95,7 @@ function updateSelectedTime(id) {
                 !cell.classList.contains('unavailable')
             ) {
                 cell.onclick = function () {
-                    updateSelectedTime(cell.id);
+                    selectTime(cell.id);
                 };
             }
         });

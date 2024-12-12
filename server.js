@@ -2,7 +2,7 @@ const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
 const path = require('path');
 const app = express();
-const databaseUrl = 'mongodb://localhost:27017/barbershop';
+const databaseUrl = 'mongodb://localhost:27017/database';
 app.set('views', path.join(__dirname, 'public'));
 app.use(express.urlencoded({ extended: false }));
 
@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get("/", async function (req, res) {
     try {
         const connection = await MongoClient.connect(databaseUrl, { useUnifiedTopology: true });
-        const db = connection.db('barbershop');
+        const db = connection.db('database');
         const servicesList = await db.collection('services').find().sort({ service_price: 1 }).toArray();
         const appointmentsList = await db.collection('appointments').find().toArray();
 
@@ -27,7 +27,7 @@ app.get("/:category", function (req, res) {
             return res.status(500).send('Ошибка подключения к базе данных');
         }
 
-        const db = connection.db('barbershop');
+        const db = connection.db('database');
         db.collection('appointments').find().toArray(function (err, appointmentsList) {
             if (err) {
                 return res.status(500).send('Не удалось получить записи');
@@ -49,7 +49,7 @@ app.post('/:category', function (req, res) {
             return res.status(500).send('Ошибка подключения к базе данных');
         }
 
-        const db = connection.db('barbershop');
+        const db = connection.db('database');
         const priceNumber = Number(price);
         const durationNumber = Number(duration);
         const timeParts = time.split(':');
@@ -82,7 +82,7 @@ app.post('/:category', function (req, res) {
                     return res.status(500).send('Не удалось записаться на прием');
                 }
                 const endTime = appointmentTime + durationNumber;
-                res.send(`Запись успешно оформлена на ${Math.floor(appointmentTime / 60)}:${appointmentTime % 60}-${Math.floor(endTime / 60)}:${endTime % 60}.`);
+                res.send(`Запись успешно оформлена `);
             });
         });
     });

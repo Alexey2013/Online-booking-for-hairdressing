@@ -16,12 +16,11 @@
     </nav>
 </header>
 
-<div id="appointments" data-appointments="<%= JSON.stringify(appointments) %>"></div>
 
 <div id="service-list">
     <div class="service-list">
         <% services.forEach(function(service, i) {%>
-            <div class="service-card" id="service<%= i + 1 %>" onclick="window.location.href='#window'; selection('<%= i + 1 %>');">
+            <div class="service-card" id="service<%= i + 1 %>" onclick="window.location.href='#window'; selectService('<%= i + 1 %>');">
                 <div class="service-name"><%= service.service_name %></div>
                 <div class="service-time"><%= service.service_time %> мин.</div>
                 <div class="service-cost"><%= service.service_price %> руб.</div>
